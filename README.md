@@ -33,26 +33,6 @@ pip3 install cython; pip3 install 'git+https://github.com/cocodataset/cocoapi.gi
 ```
 pip3 install cython_bbox
 ```
-7. Docker Build
-```
-docker build -t bytetrack:latest .
-
-# Startup sample
-mkdir -p pretrained && \
-mkdir -p YOLOX_outputs && \
-xhost +local: && \
-docker run --gpus all -it --rm \
--v $PWD/pretrained:/workspace/ByteTrack/pretrained \
--v $PWD/datasets:/workspace/ByteTrack/datasets \
--v $PWD/YOLOX_outputs:/workspace/ByteTrack/YOLOX_outputs \
--v /tmp/.X11-unix/:/tmp/.X11-unix:rw \
---device /dev/video0:/dev/video0:mwr \
---net=host \
--e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR \
--e DISPLAY=$DISPLAY \
---privileged \
-bytetrack:latest
-```
 
 #### Dataset Preparation
 1. [MOT17](https://motchallenge.net/data/MOT17/), [MOT20](https://motchallenge.net/data/MOT20/)를 경로에 맞게 다운로드 한다.
@@ -106,8 +86,13 @@ python3 tools/train.py --exp_file exps/example/mot/yolox_x_ablation.py --devices
 ```
 
 #### Test
+1. Test with MOT17 dataset
 ```
-python3 tools/track.py -f exps/example/mot/track_mot17_jh.py -c YOLOX_outputs/yolox_x_ablation/last_epoch_ckpt.pth.tar -b 1 -d 1 --fp16 --fuse
+python3 tools/track.py -f exps/example/mot/track_mot17.py -c YOLOX_outputs/yolox_x_ablation/last_epoch_ckpt.pth.tar -b 1 -d 1 --fp16 --fuse
+```
+2. Test with MOT20 dataset
+```
+python3 tools/track.py -f exps/example/mot/track_mot20.py -c YOLOX_outputs/yolox_x_ablation/last_epoch_ckpt.pth.tar -b 1 -d 1 --fp16 --fuse
 ```
 
 ## Reference
