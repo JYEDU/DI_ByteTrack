@@ -1,9 +1,10 @@
 # 2022 Introduction of Deep Learning Final Project
 ## Multi-Object Tracking
-
+- 비디오 영상에서 시간에 따라 움직이는 여러 개의 객체의 위치를 찾는 과정
 ## ByteTrack
-
-##### Install
+- detector인 YOLOX와 association 방법인 BYTE를 결합하여 만든 단순하고 강력한 tracker
+### ByteTrack Practice
+#### Install
 1. Anaconda 환경에서 가상환경 생성
 ```
 conda create -n bytetrack python=3.7
@@ -51,7 +52,7 @@ docker run --gpus all -it --rm \
 bytetrack:latest
 ```
 
-##### Dataset Preparation
+#### Dataset Preparation
 1. [MOT17](https://motchallenge.net/data/MOT17/), [MOT20](https://motchallenge.net/data/MOT20/)를 경로에 맞게 다운로드 한다.
 ```
 ├──ByteTrack
@@ -72,14 +73,14 @@ python3 tools/convert_mot20_to_coco.py
 python3 tools/mix_data_ablation.py
 ```
 
-##### Train
+#### Train
 1. 실험환경에 맞춰 모델을 훈련한다.
 ```
 python3 tools/train.py --exp_file exps/example/mot/yolox_x_ablation.py --devices 1 --batch-size 4 --fp16 --occupy --ckpt pretrained/yolox_x.pth
 
 ```
 
-##### Test
+#### Test
 ```
 python3 tools/track.py -f exps/example/mot/track_mot17_jh.py -c YOLOX_outputs/yolox_x_ablation/last_epoch_ckpt.pth.tar -b 1 -d 1 --fp16 --fuse
 ```
