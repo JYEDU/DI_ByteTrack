@@ -4,7 +4,7 @@ import torch
 import torch.backends.cudnn as cudnn
 
 from yolox.core import Trainer, launch
-from yolox.exp_jh import get_exp
+from yolox.exp import get_exp
 
 import argparse
 import random

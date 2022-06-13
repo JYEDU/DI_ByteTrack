@@ -2,18 +2,6 @@ import json
 import os
 
 
-"""
-cd datasets
-mkdir -p mix_mot_ch/annotations
-cp mot/annotations/val_half.json mix_mot_ch/annotations/val_half.json
-cp mot/annotations/test.json mix_mot_ch/annotations/test.json
-cd mix_mot_ch
-ln -s ../mot/train mot_train
-ln -s ../crowdhuman/CrowdHuman_train crowdhuman_train
-ln -s ../crowdhuman/CrowdHuman_val crowdhuman_val
-cd ..
-"""
-
 mot17_json = json.load(open('../MOT17/annotations/train_half.json','r'))
 
 

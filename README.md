@@ -16,7 +16,9 @@ conda activate bytetrack
 3. git clone and change directory
 ```
 git clone https://github.com/JYEDU/DI_ByteTrack.git
-cd ByteTrack
+```
+```
+cd DI_ByteTrack
 ```
 4. 환경 설정
 ```
@@ -55,6 +57,14 @@ bytetrack:latest
 #### Dataset Preparation
 1. [MOT17](https://motchallenge.net/data/MOT17/), [MOT20](https://motchallenge.net/data/MOT20/)를 경로에 맞게 다운로드 한다.
 ```
+cd ..
+wget https://motchallenge.net/data/MOT17.zip
+unzip MOT17.zip
+wget https://motchallenge.net/data/MOT20.zip
+unzip MOT20.zip
+cd DI_ByteTrack
+```
+```
 ├──ByteTrack
 ├──MOT17
 │    ├──train
@@ -70,11 +80,26 @@ python3 tools/convert_mot20_to_coco.py
 ```
 3. 데이터 전처리를 위해 다른 데이터셋들을 섞어준다.
 ```
-python3 tools/mix_data_ablation.py
+mkdir -p mix_dataset/annotations
+cp ../MOT17/annotations/val_half.json mix_dataset/annotations/val_half.json
+cd mix_dataset
+ln -s ../../MOT17/train/ mot17_train
+ln -s ../../MOT20/train/ mot20_train
+cd ..
+python3 tools/mix_data_train.py
+python3 tools/mix_data_val.py
 ```
 
 #### Train
-1. 실험환경에 맞춰 모델을 훈련한다.
+1. pretrained된 모델을 다운로드 한다. 여기서는 [YOLOX](https://github.com/Megvii-BaseDetection/YOLOX/tree/0.1.0)를 사용한다.
+```
+mkdir -p pretrained
+cd pretrained
+wget https://github.com/Megvii-BaseDetection/storage/releases/download/0.0.1/yolox_x.pth
+cd ..
+```
+
+2. 실험환경에 맞춰 모델을 훈련한다.
 ```
 python3 tools/train.py --exp_file exps/example/mot/yolox_x_ablation.py --devices 1 --batch-size 4 --fp16 --occupy --ckpt pretrained/yolox_x.pth
 

@@ -49,7 +49,6 @@ class Exp(BaseExp):
         self.ema = True
 
         self.weight_decay = 5e-4
-        #self.weight_decay = 1e-4
         self.momentum = 0.9
         self.print_interval = 10
         self.eval_interval = 10
@@ -174,11 +173,8 @@ class Exp(BaseExp):
                 elif hasattr(v, "weight") and isinstance(v.weight, nn.Parameter):
                     pg1.append(v.weight)  # apply decay
 
-#            optimizer = torch.optim.SGD(
-#                pg0, lr=lr, momentum=self.momentum, nesterov=True
-#            )
-            optimizer = torch.optim.Adam(
-                pg0, lr=lr
+            optimizer = torch.optim.SGD(
+                pg0, lr=lr, momentum=self.momentum, nesterov=True
             )
             optimizer.add_param_group(
                 {"params": pg1, "weight_decay": self.weight_decay}
