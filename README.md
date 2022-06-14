@@ -82,16 +82,17 @@ cd ..
 2. 실험환경에 맞춰 모델을 훈련한다.
 ```
 python3 tools/train.py --exp_file exps/example/mot/yolox_x_ablation.py --devices 1 --batch-size 4 --fp16 --occupy --ckpt pretrained/yolox_x.pth
-
 ```
 
 #### Test
 1. Test with MOT17 dataset
 ```
+cp ../MOT17/annotations/val_half.json mix_dataset/annotations/mot17_val_half.json
 python3 tools/track.py -f exps/example/mot/track_mot17.py -c YOLOX_outputs/yolox_x_ablation/last_epoch_ckpt.pth.tar -b 1 -d 1 --fp16 --fuse
 ```
 2. Test with MOT20 dataset
 ```
+cp ../MOT20/annotations/val_half.json mix_dataset/annotations/mot20_val_half.json
 python3 tools/track.py -f exps/example/mot/track_mot20.py -c YOLOX_outputs/yolox_x_ablation/last_epoch_ckpt.pth.tar -b 1 -d 1 --fp16 --fuse
 ```
 
